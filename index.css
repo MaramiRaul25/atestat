@@ -1,8 +1,9 @@
 canvas {
-  background: #f26138;
+  background: black;
   display: block;
   margin-left: auto;
   margin-right: auto;
+  border: 3px solid white;
 }
 
 body {

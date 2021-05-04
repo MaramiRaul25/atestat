@@ -42,7 +42,7 @@ function mouseMoveHandler(e) {
     paddleX = relativeX - paddleWidth / 2;
 }
 
-//-COLLISION-
+//-DETECTARE COLIZIUNI-
 function collisionDetection() {
   for (var c = 0; c < brickColumnCount; c++) {
     for (var r = 0; r < brickRowCount; r++) {
@@ -71,12 +71,12 @@ function collisionDetection() {
   }
 }
 
-//-INITIALIZATION-
+//-INITIALIZARE CARAMIZI-
 function initializeBricks() {
   paddleWidth -= 20;
   switch (level) {
     case 1:
-      brickColor = "#8293F5";
+      brickColor = "#0DDBD4";
       for (var c = 0; c < brickColumnCount; c++) {
         bricks[c] = [];
         for (var r = 0; r < brickRowCount; r++) {
@@ -87,7 +87,7 @@ function initializeBricks() {
       }
       break;
     case 2:
-      brickColor = "#3298F0";
+      brickColor = "#38C20A";
       for (var c = 0; c < brickColumnCount; c++) {
         bricks[c] = [];
         for (var r = 0; r < brickRowCount; r++) {
@@ -98,7 +98,7 @@ function initializeBricks() {
       }
       break;
     case 3:
-      brickColor = "#F5DD33";
+      brickColor = "#DBD82F";
       for (var c = 0; c < brickColumnCount; c++) {
         bricks[c] = [];
         for (var r = 0; r < brickRowCount; r++) {
@@ -112,7 +112,7 @@ function initializeBricks() {
       }
       break;
     case 4:
-      brickColor = "#ADF578";
+      brickColor = "#EB7000";
       for (var c = 0; c < brickColumnCount; c++) {
         bricks[c] = [];
         for (var r = 0; r < brickRowCount; r++) {
@@ -136,7 +136,7 @@ function initializeBricks() {
       bricks[4][6] = { x: 0, y: 0, status: 0 };
       break;
     case 5:
-      brickColor = "#95CCE8";
+      brickColor = "#EB1601";
       for (var c = 0; c < brickColumnCount; c++) {
         bricks[c] = [];
         for (var r = 0; r < brickRowCount; r++) {
@@ -166,7 +166,7 @@ function drawBall() {
   ctx.closePath();
 }
 
-//-DESENARE
+//-DESENARE PADELA-
 function drawPaddle() {
   ctx.beginPath();
   ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
@@ -183,6 +183,7 @@ function drawBricks() {
         var brickY = c * (brickHeight + brickPadding) + brickOffsetTop;
         bricks[c][r].x = brickX;
         bricks[c][r].y = brickY;
+        drawBorder(brickX, brickY, brickWidth, brickHeight, 2);
         ctx.beginPath();
         ctx.rect(brickX, brickY, brickWidth, brickHeight);
         ctx.fillStyle = brickColor;
@@ -266,4 +267,14 @@ function checkWin() {
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
+}
+
+function drawBorder(xPos, yPos, width, height, thickness) {
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillRect(
+    xPos - thickness,
+    yPos - thickness,
+    width + thickness * 2,
+    height + thickness * 2
+  );
 }

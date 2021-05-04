@@ -1,1 +1,24 @@
-canvas { background:#000000 }
+canvas {
+  background: #f26138;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body {
+  background-color: black;
+}
+
+@font-face {
+  font-family: "pixel";
+  src: url("./VPPixel-Simplified.otf");
+  font-style: normal;
+  font-weight: 100;
+}
+
+div {
+  text-align: center;
+  font-family: "pixel";
+  font-size: 60px;
+  color: #e80c30;
+}

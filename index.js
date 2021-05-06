@@ -5,8 +5,8 @@ ctx.canvas.width = (window.innerHeight - 200) * 1.7;
 var ballRadius = 8;
 var x = canvas.width / 2;
 var y = canvas.height - 30;
-var dx = 4;
-var dy = -4;
+var dx;
+var dy;
 var paddleHeight = 10;
 var paddleWidth = 150;
 var paddleX = (canvas.width - paddleWidth) / 2;
@@ -19,13 +19,14 @@ var brickOffsetTop = 35;
 var brickOffsetLeft = 35;
 var score = 0;
 var lives = 5;
-var level = 5;
+var level = 1;
 var bricks = [];
-var brickColor = "#FA1E46";
-var pause = false;
-var randomN = 1;
 var levelSet = [];
+var brickColor;
+var pause = false;
+var direction = 1;
 
+//-Obiect cu toate cele 5 nivele-
 const data = {
   level1: [
     [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
@@ -79,7 +80,7 @@ document.addEventListener("keyup", function (event) {
   }
 });
 
-//-MOUSE MOVEMENT-
+//-POZITIE PADELA IN FUNCTIE DE MOUSE-
 function mouseMoveHandler(e) {
   var relativeX = e.clientX - canvas.offsetLeft;
   if (relativeX > 0 && relativeX < canvas.width)
@@ -104,7 +105,7 @@ function collisionDetection() {
           if (checkWin()) {
             level++;
             if (level === 6) {
-              alert("YOU WON!");
+              alert("AI CASTIGAT");
               document.location.reload();
             }
             initializeBricks();
@@ -115,31 +116,41 @@ function collisionDetection() {
   }
 }
 
-//-INITIALIZARE CARAMIZI-
+//-INITIALIZARE CARAMIZI IN  FUNCTIE DE NIVEL-
 function initializeBricks() {
   paddleWidth -= 20;
   switch (level) {
     case 1:
+      dx = 6 * getRandomInt();
+      dy = 6 * getRandomInt();
       brickColor = "#0DDBD4";
       levelSet = data.level1;
       break;
 
     case 2:
+      dx = 7 * getRandomInt();
+      dy = 7 * getRandomInt();
       brickColor = "#38C20A";
       levelSet = data.level2;
       break;
 
     case 3:
+      dx = 8 * getRandomInt();
+      dy = 8 * getRandomInt();
       brickColor = "#DBD82F";
       levelSet = data.level3;
       break;
 
     case 4:
+      dx = 9 * getRandomInt();
+      dy = 9 * getRandomInt();
       brickColor = "#EB7000";
       levelSet = data.level4;
       break;
 
     case 5:
+      dx = 10 * getRandomInt();
+      dy = 10 * getRandomInt();
       brickColor = "#EB1601";
       levelSet = data.level5;
       break;
@@ -183,6 +194,7 @@ function drawPaddle() {
   ctx.closePath();
 }
 
+//-DESENARE CARAMIZI-
 function drawBricks() {
   for (var c = 0; c < brickColumnCount; c++) {
     for (var r = 0; r < brickRowCount; r++) {
@@ -202,24 +214,29 @@ function drawBricks() {
   }
 }
 
+//-DESENEAZA SCORUL CURENT-
 function drawScore() {
   ctx.font = "bold 22px Pixel";
   ctx.fillStyle = "#EBC900";
   ctx.fillText("Score: " + score, 8, 20);
 }
 
+//-DESENEAZA TEXTUL CU VIETI RAMASE-
 function drawLives() {
   ctx.font = "bold 22px Pixel";
   ctx.fillStyle = "#EBC900";
   ctx.fillText("Lives: " + lives, canvas.width - 80, 20);
 }
 
+//-DESENEAZA TEXTUL CU NIVELE-
 function drawLevels() {
   ctx.font = "bold 22px Pixel";
   ctx.fillStyle = "#EBC900";
   ctx.fillText("Level: " + level, canvas.width - 80, 50);
 }
 
+//-FUNCTIA ASTA APELEAZA TOATE CELELALTE FUNCTII PENTRU A DESENA OBIECTELE-
+//-SI SE AUTOAPELEAZA DE FIECARE DATA-
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBricks();
@@ -230,6 +247,7 @@ function draw() {
   drawLevels();
   collisionDetection();
 
+  //-DETECTARE COLIZIUNI CU MARGINILE TABLEI DE JOC-
   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
     dx = -dx;
   }
@@ -241,13 +259,13 @@ function draw() {
     } else {
       lives--;
       if (!lives) {
-        alert("GAME OVER");
+        alert("AI PIERDUT");
         document.location.reload();
       } else {
         x = canvas.width / 2;
         y = canvas.height - 30;
-        dx = 10;
-        dy = -10;
+        dx = dx * getRandomInt();
+        dy = dy * getRandomInt();
         paddleX = (canvas.width - paddleWidth) / 2;
       }
     }
@@ -262,6 +280,7 @@ function draw() {
 
 draw();
 
+//-FUNCTIE CARE VERIFICA DACA TOATE CARAMIZILE SUNT DISTRUSE-
 function checkWin() {
   for (var c = 0; c < brickColumnCount; c++) {
     for (var r = 0; r < brickRowCount; r++) {
@@ -273,10 +292,22 @@ function checkWin() {
   return true;
 }
 
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min) + min);
+//-FUNCTIE CARE DA UN NUMAR LA NIMEREALA DINTRE 1 SI 2-
+function getRandomInt() {
+  const random = Math.floor(Math.random() * 2) + 1;
+  switch (random) {
+    case 1:
+      return 1;
+      break;
+    case 2:
+      return -1;
+      break;
+    default:
+      break;
+  }
 }
 
+//-FUNCTIE CARE DESENEAZA MARGINILE OBIECTELOR-
 function drawBorder(xPos, yPos, width, height, thickness) {
   ctx.fillStyle = "#FFFFFF";
   ctx.fillRect(

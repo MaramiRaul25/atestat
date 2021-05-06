@@ -3,15 +3,21 @@ var ctx = canvas.getContext("2d");
 ctx.canvas.height = window.innerHeight - 200;
 ctx.canvas.width = (window.innerHeight - 200) * 1.7;
 var ballRadius = 8;
+//-POZITIE MINGE-
 var x = canvas.width / 2;
 var y = canvas.height - 30;
+//-DIRECTIE MINGE-
 var dx;
 var dy;
+//-DIMENSIUNI PADELA-
 var paddleHeight = 10;
 var paddleWidth = 150;
+//-POZITIE PADELA-
 var paddleX = (canvas.width - paddleWidth) / 2;
+//-NR CARAMIZI-
 var brickRowCount = 11;
 var brickColumnCount = 6;
+//-DIMENSIUNI CARAMIZI-
 var brickWidth = 70;
 var brickHeight = 15;
 var brickPadding = 35;
@@ -23,7 +29,6 @@ var level = 1;
 var bricks = [];
 var levelSet = [];
 var brickColor;
-var pause = false;
 var direction = 1;
 
 //-Obiect cu toate cele 5 nivele-
@@ -72,13 +77,6 @@ const data = {
 
 //-DOCUMENT EVENTS-
 document.addEventListener("mousemove", mouseMoveHandler, false);
-
-document.addEventListener("keyup", function (event) {
-  if (event.key === "Escape") {
-    if (pause) draw();
-    pause = !pause;
-  }
-});
 
 //-POZITIE PADELA IN FUNCTIE DE MOUSE-
 function mouseMoveHandler(e) {
@@ -273,9 +271,7 @@ function draw() {
 
   x += dx;
   y += dy;
-  if (!pause) {
-    requestAnimationFrame(draw);
-  }
+  requestAnimationFrame(draw);
 }
 
 draw();
@@ -298,10 +294,8 @@ function getRandomInt() {
   switch (random) {
     case 1:
       return 1;
-      break;
     case 2:
       return -1;
-      break;
     default:
       break;
   }
